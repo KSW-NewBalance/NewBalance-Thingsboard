@@ -55,10 +55,10 @@ function findPeakData(msg, metadata, msgType){
   var inclination = msg.acceleration - metadata.acceleration;
   var newMsgType = "";
 
-/*
+  /*
    If current acceleration has a large value than threshold(6 in here) and also bigger than previous peak data.
    Then, change the peak value
-*/
+  */
   if(inclination > 0){ // upward curve : Need to find peak data
       if(msg.acceleration-6>0 && metadata.peak < msg.acceleration){
           msg.peak = msg.acceleration;
