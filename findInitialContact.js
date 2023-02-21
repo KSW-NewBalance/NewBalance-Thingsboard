@@ -47,6 +47,7 @@ function getMagnitudeAccelerationData(msg, metadata, msgType){
 /* findPeakData(acceleration)
  * Calculate the local maximum value
  * @param acceleration, previous_acceleration(metadata)
+ * @return integer
 */ 
 
 function findPeakData(msg, metadata, msgType){
