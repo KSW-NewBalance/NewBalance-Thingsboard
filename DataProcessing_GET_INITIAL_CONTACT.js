@@ -89,6 +89,8 @@ function contactOrSwing(msg, metadata, msgType){
    * Find a peak point by comparing the previous inclination(metadata) and current inclination 
    * The point where the slope of the graph changes from plus to minus is the peak.
   */
+  var under_threshold = 2; // threshold to find the swing state
+  
   if(metadata.inclination > 0 && msg.inclination < 0 && metadata.acceleration == metadata.peak){ 
 
       msg.initial_contact = true;
