@@ -5,8 +5,15 @@
 */ 
 
 function getFootAngleAvg(msg, metadata, msgType){
-  var avg_foot_angle = parseFloat(metadata.sum_of_angle) / parseInt(metadata.counter);
-  msg.avg_foot_angle = avg_foot_angle;
+  var avg_foot_angle =0;
+
+  avg_foot_angle = parseFloat(metadata.sum_of_angle) / parseInt(metadata.counter);
+  // if the data is from the left foot, change the sign
+  if(metadata.deviceName == "NewBalance_Left"){
+      avg_foot_angle = avg_foot_angle*-1;
+  }
+  msg.avg_foot_angle = parseFloat(avg_foot_angle.toFixed(2));
+
   return {msg: msg, metadata: metadata, msgType: msgType};
 }
 
@@ -32,5 +39,3 @@ function setMsgForAttributes(msg, metadata, msgType){
 
   return {msg: newMsg, metadata: metadata, msgType: newMsgType};
 }
-
-
