@@ -55,13 +55,14 @@ function findPeakData(msg, metadata, msgType){
   // Get inclination by subtracting from the previous value
   var inclination = msg.acceleration - metadata.acceleration;
   var newMsgType = "";
+  var upper_threshold = 6;
 
   /*
    If current acceleration has a large value than threshold(6 in here) and also bigger than previous peak data.
    Then, change the peak value
   */
   if(inclination > 0){ // upward curve : Need to find peak data
-      if(msg.acceleration-6>0 && metadata.peak < msg.acceleration){
+      if(msg.acceleration-upper_threshold > 0 && metadata.peak < msg.acceleration){
           msg.peak = msg.acceleration;
       }
   }else{// down curve : No need to find a peak data. Peak is not changed.
@@ -92,15 +93,16 @@ function contactOrSwing(msg, metadata, msgType){
 
       msg.initial_contact = true;
     
-  }else if(msg.inclination>0 && msg.acceleration - 2 == 0){
-      /* Check swing state's start point
-       * If current inclination is positive and acceleration is near the under threshold(in here 2), then swing state starts.
-      */
-      msg.peak = -1; //initialize the peak value
-      msg.initial_contact= false;
-  }else{
-      msg.initial_contact= false;
-  }
+  }else if(msg.inclination>0 && (parseFloat(msg.acceleration) - 2 >= -0.3 && parseFloat(msg.acceleration)-2<=0.3 )){
+    /* check swing state's start point
+    if current inclination is positive and acceleration is near the under threshold, then swing state starts.
+    */
+    msg.peak = -1; //initialize the value
+    msg.initial_contact= false;
+    metadata.peak=-1;
+}else{
+    msg.initial_contact= metadata.initial_contact;
+}
 
   return {msg: msg, metadata: metadata, msgType: msgType};
 }
