@@ -1,5 +1,5 @@
 /* calculatePressureData()
- * Calculate cumulative values
+ * accumulate all the force data from each Force Sensitive Register
  * @param 
  * @return integer
 */ 
