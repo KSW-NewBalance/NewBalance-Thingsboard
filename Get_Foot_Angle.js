@@ -5,13 +5,17 @@
 */ 
 
 function getFootAngle(angle, counter, sum_of_angle){
-  var counter = parseInt(metadata.counter);
-  var gyro_diff = (parseFloat(msg.gyro_x) + parseFloat(metadata.angle)) * 0.02*0.5;
-  var angle = parseFloat(metadata.angle) + gyro_diff;
+  var newMsgType = "POST_TELEMETRY_REQUEST";
+  var time = 0.01; //measurement interval
+  var rad2deg = 57.3;// a value to change radian value to degree value
 
-  msg.angle = angle;
-  msg.counter = counter+1;
-  msg.sum_of_angle = parseFloat(metadata.sum_of_angle)+ angle;
+  var gyro_diff = parseFloat(msg.gyro_z) * rad2deg * time; // calculate the difference of angle
+  var angle = parseFloat(metadata.angle) + gyro_diff; // get the current angle
 
-  return {msg: msg, metadata: metadata, msgType: msgType};
+  msg.gyro_diff = gyro_diff;
+  msg.angle = angle.toFixed(2);
+  msg.counter = parseInt(metadata.counter)+1;
+  msg.sum_of_angle = (parseFloat(metadata.sum_of_angle) + parseFloat(msg.angle)).toFixed(2);
+  
+  return {msg: msg, metadata: metadat
 }
